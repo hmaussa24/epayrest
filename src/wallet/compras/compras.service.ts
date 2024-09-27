@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import * as nodemailer from 'nodemailer';
 import { randomInt } from 'crypto';  // Para generar el token de 6 dígitos
+import { ValidarCompraDto } from '../dtos/confirmar-compra.dto';
 
 @Injectable()
 export class ComprasService {
@@ -153,10 +154,8 @@ export class ComprasService {
         return compra.valor;
       }
 
-    async validarTokenYCompletarCompra(
-        sessionId: string,
-        token: string
-    ) {
+    async validarTokenYCompletarCompra(validarCompraDto: ValidarCompraDto) {
+        const { sessionId, token } = validarCompraDto
         try {
             const sesion = await this.validarSesionYToken(sessionId, token);
             if (!sesion) {
