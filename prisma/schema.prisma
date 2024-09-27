@@ -23,6 +23,9 @@ model Usuario {
   
   saldo     SaldoUsuario?
   sesiones  Sesion[]
+  compras   Compra[]
+
+  @@index([documento], name: "usuario_documento_idx")
 }
 
 model SaldoUsuario {
@@ -37,13 +40,30 @@ model SaldoUsuario {
 
 model Sesion {
   id          Int       @id @default(autoincrement())
-  token       String    @db.VarChar(6) // Token de 6 dígitos
+  token       String    @db.VarChar(6)
   sesionId    String    @unique
-  usuarioId   Int       // Relación con el usuario
+  usuarioId   Int 
   createdAt   DateTime  @default(now())
-  expiresAt   DateTime  // Expiración del token
+  expiresAt   DateTime
+  tokenUsado  Boolean   @default(false)
 
   usuario     Usuario   @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
-
+  compras     Compra[]
   @@index([sesionId], name: "sesion_id_idx") // Índice en el campo sesionId para mejorar las consultas
+}
+
+model Compra {
+  id          Int       @id @default(autoincrement())
+  descripcion String
+  valor       Float
+  usuarioId   Int  
+  sesionId    Int     
+  createdAt   DateTime  @default(now())
+
+  // Relaciones
+  usuario     Usuario   @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+  sesion      Sesion    @relation(fields: [sesionId], references: [id], onDelete: Cascade)
+
+  @@index([usuarioId], name: "usuario_compra_idx")
+  @@index([sesionId], name: "sesion_compra_idx")
 }
