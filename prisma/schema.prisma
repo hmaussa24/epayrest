@@ -21,7 +21,8 @@ model Usuario {
   email     String        @unique @db.VarChar(255)
   celular   String        @db.VarChar(10)         
   
-  saldo     SaldoUsuario? 
+  saldo     SaldoUsuario?
+  sesiones  Sesion[]
 }
 
 model SaldoUsuario {
@@ -32,4 +33,17 @@ model SaldoUsuario {
 
   usuario      Usuario  @relation(fields: [usuarioId], references: [id], onDelete: Cascade) 
   @@map("saldos_usuarios")
+}
+
+model Sesion {
+  id          Int       @id @default(autoincrement())
+  token       String    @db.VarChar(6) // Token de 6 dígitos
+  sesionId    String    @unique
+  usuarioId   Int       // Relación con el usuario
+  createdAt   DateTime  @default(now())
+  expiresAt   DateTime  // Expiración del token
+
+  usuario     Usuario   @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+
+  @@index([sesionId], name: "sesion_id_idx") // Índice en el campo sesionId para mejorar las consultas
 }
