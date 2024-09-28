@@ -1,0 +1,187 @@
+{
+	"info": {
+		"_postman_id": "3c1a5e85-04ed-43c2-899d-e5899216e548",
+		"name": "ePaycoTest",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "10322341"
+	},
+	"item": [
+		{
+			"name": "crear usuario",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"nombres\": \"Harold\",\n    \"email\": \"haroldmaussa@gmail.com\",\n    \"celular\": \"3137950065\",\n    \"documento\": \"1068811859\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3001/api/user",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"api",
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getuserByDoc",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/api/user/1068811859",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"api",
+						"user",
+						"1068811859"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "cargarSaldo",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"documento\": \"1068811859\",\n  \"celular\": \"3137950065\",\n  \"monto\": 100\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3001/api/cargar-saldo",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"api",
+						"cargar-saldo"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "consultarSaldo",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/api/consultar-saldo?documento=1068811853&celular=3137950063",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"api",
+						"consultar-saldo"
+					],
+					"query": [
+						{
+							"key": "documento",
+							"value": "1068811853"
+						},
+						{
+							"key": "celular",
+							"value": "3137950063"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "generarCompra",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"usuarioId\": 1,\n  \"descripcion\": \"Compra de producto A\",\n  \"valor\": 50.75\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3001/api/comprar",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"api",
+						"comprar"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "validarToken",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"sessionId\": \"811628\",\n  \"token\": \"651866\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3001/api/validar-token",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"api",
+						"validar-token"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
