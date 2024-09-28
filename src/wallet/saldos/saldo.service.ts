@@ -53,7 +53,7 @@ export class SaldoService {
     });
 
     if (!saldoUsuario) {
-      throw new NotFoundException(`Saldo no encontrado para el usuario con documento ${documento}`);
+      return 0.0;
     }
 
     return saldoUsuario.saldo;

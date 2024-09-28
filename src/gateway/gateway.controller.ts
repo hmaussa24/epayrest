@@ -1,7 +1,6 @@
 import { Body, Controller, Get, Param, Post, Put, Query, UsePipes, ValidationPipe } from '@nestjs/common';
 import { GatewayService } from './gateway.service';
 import { CargarSaldoDto } from 'src/wallet/dtos/cargar-saldo.dto';
-import { SaldoUsuario, Usuario } from '@prisma/client';
 import { CreateUserDto } from 'src/wallet/dtos/create-user.dto';
 import { ValidarCompraDto } from 'src/wallet/dtos/confirmar-compra.dto';
 
@@ -50,7 +49,6 @@ export class GatewayController {
   async validarTokenYCompletarCompra(
     @Body() validarCompraDto: ValidarCompraDto,
   ) {
-    const { sessionId, token} = validarCompraDto;
     return this.gatewayService.validarTokenYCompletarCompra(validarCompraDto);
   }
 }

@@ -39,9 +39,9 @@ export class WalletController {
   async consultarSaldo(
     @Query('documento') documento: string,
     @Query('celular') celular: string
-  ): Promise<{ saldo: number }> {
+  ): Promise<number> {
     const saldo = await this.saldoService.consultarSaldo(documento, celular);
-    return { saldo };
+    return saldo;
   }
 
   @Post('comprar')

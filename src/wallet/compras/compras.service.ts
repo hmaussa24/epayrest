@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import * as nodemailer from 'nodemailer';
-import { randomInt } from 'crypto';  // Para generar el token de 6 dígitos
+import { randomInt } from 'crypto';
 import { ValidarCompraDto } from '../dtos/confirmar-compra.dto';
 
 @Injectable()
@@ -10,25 +10,6 @@ export class ComprasService {
 
     generateToken(): string {
         return randomInt(100000, 999999).toString();
-    }
-
-    async sendTokenByEmail(email: string, token: string) {
-        const transporter = nodemailer.createTransport({
-            service: 'gmail',
-            auth: {
-                user: process.env.EMAIL_USER,
-                pass: process.env.EMAIL_PASS,
-            },
-        });
-
-        const mailOptions = {
-            from: process.env.EMAIL_USER,
-            to: email,
-            subject: 'Tu Token de Seguridad',
-            text: `Tu token de seguridad es: ${token}`,
-        };
-
-        await transporter.sendMail(mailOptions);
     }
 
     async registrarCompra(usuarioId: number, descripcion: string, valor: number) {
@@ -67,9 +48,7 @@ export class ComprasService {
             },
         });
 
-        // await this.sendTokenByEmail(usuario.email, token);
-
-        return compra;
+        return { compra, validate: sesionId, token };
     }
 
 
@@ -137,22 +116,22 @@ export class ComprasService {
 
     private async obtenerValorCompra(sessionId: string) {
         const compra = await this.prisma.compra.findFirst({
-          where: {
-            sesion: {
-              sesionId: sessionId,
+            where: {
+                sesion: {
+                    sesionId: sessionId,
+                },
             },
-          },
-          orderBy: {
-            createdAt: 'desc',
-          },
+            orderBy: {
+                createdAt: 'desc',
+            },
         });
-    
+
         if (!compra) {
-          throw new Error('Compra no encontrada para la sesión proporcionada');
+            throw new Error('Compra no encontrada para la sesión proporcionada');
         }
-    
+
         return compra.valor;
-      }
+    }
 
     async validarTokenYCompletarCompra(validarCompraDto: ValidarCompraDto) {
         const { sessionId, token } = validarCompraDto
